@@ -34,8 +34,9 @@ public class Autor {
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @OneToMany(mappedBy = "autor",
-            fetch = FetchType.LAZY)
+    //Um autor pode ter zero ou N livros
+    @ManyToMany(mappedBy = "autores")
+    @Column(nullable = true)
     private List<Livro> livros;
 
     public Autor(DadosCadastroAutor dadosCadastroAutor) {

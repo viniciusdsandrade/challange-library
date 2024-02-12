@@ -15,7 +15,11 @@ import java.util.List;
 @Entity(name = "Locatario")
 @Table(
         name = "tb_locatario",
-        schema = "db_library_api"
+        schema = "db_library_api",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_locatario_cpf", columnNames = "CPF"),
+                @UniqueConstraint(name = "uk_locatario_email", columnNames = "email")
+        }
 )
 public class Locatario {
 
@@ -23,7 +27,12 @@ public class Locatario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+    private String nome;
+    private String CPF;
+    private String email;
+    private String telefone;
+    private String nascimento;
 
-    @OneToMany(mappedBy = "locatario")
-    private List<Aluguel> alugueis;
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
 }
