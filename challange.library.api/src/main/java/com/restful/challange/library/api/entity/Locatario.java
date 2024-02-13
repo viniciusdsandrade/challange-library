@@ -1,5 +1,6 @@
 package com.restful.challange.library.api.entity;
 
+import com.restful.challange.library.api.dto.locatario.DadosCadastroLocatario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,4 +36,17 @@ public class Locatario {
 
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+
+    //Cada Aluguel deverá ter um Locatario
+    @OneToMany(mappedBy = "locatario")
+    private List<Aluguel> alugueis;
+
+    public Locatario(DadosCadastroLocatario dadosCadastroLocatario) {
+        this.nome = dadosCadastroLocatario.nome();
+        this.sexo = dadosCadastroLocatario.sexo();
+        this.nascimento = dadosCadastroLocatario.nascimento();
+        this.CPF = dadosCadastroLocatario.cpf();
+        this.email = dadosCadastroLocatario.email();
+        this.telefone = dadosCadastroLocatario.telefone();
+    }
 }

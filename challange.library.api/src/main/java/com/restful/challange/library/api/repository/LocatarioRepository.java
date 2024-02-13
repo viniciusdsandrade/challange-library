@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LocatarioRepository extends JpaRepository<Locatario, Long> {
+    boolean existsByCPF(String cpf);
+
+    boolean existsByEmail(String email);
 }

@@ -7,10 +7,10 @@ import com.restful.challange.library.api.exception.DuplicateEntryException;
 import com.restful.challange.library.api.exception.ValidacaoException;
 import com.restful.challange.library.api.repository.AutorRepository;
 import com.restful.challange.library.api.service.AutorService;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +25,8 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
-    public Autor save(@Valid DadosCadastroAutor dadosCadastroAutor) {
+    @Transactional
+    public Autor save(DadosCadastroAutor dadosCadastroAutor) {
         validarDadosCadastroAutor(dadosCadastroAutor);
         Autor autor = new Autor(dadosCadastroAutor);
         return autorRepository.save(autor);
@@ -42,21 +43,21 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Autor autor = autorRepository.findById(id).orElseThrow(() -> new ValidacaoException("Autor não encontrado"));
         autorRepository.delete(autor);
     }
 
     private void validarDadosAtualizacaoAutor(DadosCadastroAutor dadosCadastroAutor) {
-        LocalDate dataNascimento = LocalDate.parse(dadosCadastroAutor.nascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate dataNascimento = LocalDate.parse(dadosCadastroAutor.nascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         validarDataNascimento(dataNascimento);
         validarIdadeMinima(dataNascimento);
     }
 
     private void validarDadosCadastroAutor(DadosCadastroAutor dadosCadastroAutor) {
         String cpf = dadosCadastroAutor.cpf().replaceAll("[.\\-]", "");
-        LocalDate dataNascimento = LocalDate.parse(dadosCadastroAutor.nascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+        LocalDate dataNascimento = LocalDate.parse(dadosCadastroAutor.nascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         validarDataNascimento(dataNascimento);
         validarIdadeMinima(dataNascimento);
         validarCpfUnico(cpf);

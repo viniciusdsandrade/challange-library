@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Entity(name = "Aluguel"
-        )
+@Entity(name = "Aluguel")
 @Table(name = "tb_aluguel",
-        schema = "db_library_api"
-)
+        schema = "db_library_api")
 public class Aluguel {
 
     @Id
@@ -27,15 +27,17 @@ public class Aluguel {
     @EqualsAndHashCode.Include
     private Long id;
 
+    //Cada Aluguel deverá ter um Locatario
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "locatario_id")
     private Locatario locatario;
 
-    @NotEmpty(message = "Deve haver pelo menos um livro no aluguel")
+    //Aluguel deverá ser de no mínimo 1 ou vários livros
     @ManyToMany
+    @NotEmpty(message = "Deve haver pelo menos um livro no aluguel")
     private List<Livro> livros;
 
     @CreationTimestamp
-    private Date dataRetirada;
-    private Date dataDevolucao;
+    private LocalDateTime dataRetirada;
+    private LocalDateTime dataDevolucao;
 }

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -29,14 +30,13 @@ public class Autor {
     private Long id;
     private String nome;
     private String CPF;
-    private String nascimento;
+    private LocalDate nascimento;
 
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    //Um autor pode ter zero ou N livros
+    // Cada autor poderá ter 0 ou mais livros
     @ManyToMany(mappedBy = "autores")
-    @Column(nullable = true)
     private List<Livro> livros;
 
     public Autor(DadosCadastroAutor dadosCadastroAutor) {

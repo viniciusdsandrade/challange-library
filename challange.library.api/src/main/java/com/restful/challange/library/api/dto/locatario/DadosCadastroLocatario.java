@@ -1,4 +1,4 @@
-package com.restful.challange.library.api.dto;
+package com.restful.challange.library.api.dto.locatario;
 
 import com.restful.challange.library.api.entity.Sexo;
 import jakarta.persistence.Column;

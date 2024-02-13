@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record DadosCadastroLivro(
@@ -19,7 +20,7 @@ public record DadosCadastroLivro(
 
         @NotNull(message = "A data de publicação do livro não pode ser nula")
         @PastOrPresent(message = "A data de publicação do livro não pode ser futura")
-        Date dataPublicacao,
+        LocalDate dataPublicacao,
 
         @NotNull(message = "A disponibilidade do livro não pode ser nula")
         @Column(columnDefinition = "boolean default true")

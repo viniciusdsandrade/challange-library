@@ -1,5 +1,6 @@
 package com.restful.challange.library.api.entity;
 
+import com.restful.challange.library.api.dto.livro.DadosCadastroLivro;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -27,15 +29,27 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private String dataPublicacao;
+    private String nome;
+    private LocalDate dataPublicacao;
     private String ISBN;
     private Boolean isAvailable;
 
     //Cada livro deve ter no mínimo 1 autor e no máximo N autores
-    @NotEmpty(message = "O livro deve ter no mínimo 1 autor")
     @ManyToMany
+    @NotEmpty(message = "O livro deve ter no mínimo 1 autor")
     @JoinTable(name = "tb_livro_autor",
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id"))
     private List<Autor> autores;
+
+    //Aluguel deverá ser de no mínimo 1 ou vários livros
+    @ManyToMany(mappedBy = "livros")
+    private List<Aluguel> alugueis;
+
+    public Livro(DadosCadastroLivro dadosCadastroLivro) {
+        this.nome = dadosCadastroLivro.nome();
+        this.dataPublicacao = dadosCadastroLivro.dataPublicacao();
+        this.ISBN = dadosCadastroLivro.ISBN();
+        this.isAvailable = dadosCadastroLivro.isAvailable();
+    }
 }
