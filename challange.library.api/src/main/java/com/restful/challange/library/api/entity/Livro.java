@@ -46,10 +46,15 @@ public class Livro {
     @ManyToMany(mappedBy = "livros")
     private List<Aluguel> alugueis;
 
-    public Livro(DadosCadastroLivro dadosCadastroLivro) {
+    public Livro(DadosCadastroLivro dadosCadastroLivro, List<Autor> autores) {
         this.nome = dadosCadastroLivro.nome();
         this.dataPublicacao = dadosCadastroLivro.dataPublicacao();
         this.ISBN = dadosCadastroLivro.ISBN();
         this.isAvailable = dadosCadastroLivro.isAvailable();
+        this.autores = autores;
+    }
+
+    public void addAutor(Autor autor) {
+        this.autores.add(autor);
     }
 }

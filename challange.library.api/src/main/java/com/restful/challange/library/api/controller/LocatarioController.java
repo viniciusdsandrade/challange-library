@@ -38,7 +38,7 @@ public class LocatarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemLocatario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemLocatario>> listar(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
         Page<DadosListagemLocatario> locatarios = locatarioService.listar(paginacao);
         return ResponseEntity.ok(locatarios);
     }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long> {
@@ -21,6 +22,8 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
             "WHERE is_available = false",
             nativeQuery = true)
     List<Livro> findUnavailableLivrosNative();
+
+    Optional<Livro> findByISBN(String isbn);
 
     /*
     4 - Listar todos os livros que foram alugados por um Locatário

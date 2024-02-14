@@ -8,7 +8,6 @@ public record DadosListagemLocatario(
         String email,
         String telefone,
         String nascimento
-
 ) {
 
     public DadosListagemLocatario(Locatario locatario) {

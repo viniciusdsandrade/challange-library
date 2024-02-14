@@ -3,6 +3,7 @@ package com.restful.challange.library.api.service.impl;
 import com.restful.challange.library.api.dto.autor.DadosCadastroAutor;
 import com.restful.challange.library.api.dto.autor.DadosListagemAutor;
 import com.restful.challange.library.api.entity.Autor;
+import com.restful.challange.library.api.entity.Livro;
 import com.restful.challange.library.api.exception.DuplicateEntryException;
 import com.restful.challange.library.api.exception.ValidacaoException;
 import com.restful.challange.library.api.repository.AutorRepository;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutorServiceImpl implements AutorService {
@@ -27,8 +30,18 @@ public class AutorServiceImpl implements AutorService {
     @Override
     @Transactional
     public Autor save(DadosCadastroAutor dadosCadastroAutor) {
+
+        //Validamos o CPF e a data de nascimento
         validarDadosCadastroAutor(dadosCadastroAutor);
+
+        // Cria um novo Autor
         Autor autor = new Autor(dadosCadastroAutor);
+
+        // Se existirem livros, adiciona cada um deles ao autor
+        Optional.ofNullable(dadosCadastroAutor.livros())
+                .ifPresent(livros -> livros.forEach(livro -> livro.addAutor(autor)));
+
+        // Salva o autor com os livros associados
         return autorRepository.save(autor);
     }
 

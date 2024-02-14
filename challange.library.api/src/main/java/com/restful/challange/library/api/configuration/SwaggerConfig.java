@@ -1,58 +1,50 @@
 package com.restful.challange.library.api.configuration;
 
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@Configuration
-public class SwaggerConfig {
-
-    @Bean
-    OpenAPI springVollMedOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Library API - Spring Boot")
-                        .version("v0.0.1")
-                        .license(new License()
-                                .name("Apache 2.0")
-                                .url("https://springdoc.org"))
-                        .contact(new Contact()
-                                .name("Spring VollMed")
-                                .url("https://www.linkedin.com/in/viniciusdsandrade/")
-                                .email("vinicius_andrade2010@hotmail.com")))
-                .externalDocs(new ExternalDocumentation()
-                        .description("Documentação do Projeto")
-                        .url("https://github.com/viniciusdsandrade/challange-library"));
-    }
+@Import(SpringDataRestConfiguration.class)
+@EnableSwagger2
+public class SwaggerConfig implements WebMvcConfigurer {
 
     @Bean
-    OpenApiCustomizer customerGlobalHeaderOpenApiCustomizer() {
-
-        return openApi -> openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
-            ApiResponses apiResponses = operation.getResponses();
-
-            apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
-            apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
-            apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
-            apiResponses.addApiResponse("400", createApiResponse("Erro na Requisição!"));
-            apiResponses.addApiResponse("401", createApiResponse("Acesso Não Autorizado!"));
-            apiResponses.addApiResponse("403", createApiResponse("Acesso Proibido!"));
-            apiResponses.addApiResponse("404", createApiResponse("Objeto Não Encontrado!"));
-            apiResponses.addApiResponse("405", createApiResponse("Método Não Permitido!"));
-            apiResponses.addApiResponse("406", createApiResponse("Não Aceitável!"));
-            apiResponses.addApiResponse("409", createApiResponse("Conflito!"));
-            apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
-        }));
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.restful.challange.library.api.controller"))
+                .paths(PathSelectors.any())
+                .build().apiInfo(apiInfo());
     }
 
-    private ApiResponse createApiResponse(String message) {
-        return new ApiResponse().description(message);
+    protected ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Título da sua API")
+                .description("Descrição detalhada da sua API")
+                .version("Versão da sua API")
+                .termsOfServiceUrl("URL dos Termos de Serviço")
+                .contact(new Contact("Nome do Contato", "URL do Contato", "Email do Contato"))
+                .license("Licença")
+                .licenseUrl("URL da Licença")
+                .build();
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

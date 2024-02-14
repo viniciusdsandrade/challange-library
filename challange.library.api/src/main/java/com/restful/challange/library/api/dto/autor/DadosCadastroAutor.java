@@ -1,6 +1,7 @@
 package com.restful.challange.library.api.dto.autor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.restful.challange.library.api.entity.Livro;
 import com.restful.challange.library.api.entity.Sexo;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record DadosCadastroAutor(
 
@@ -33,7 +35,13 @@ public record DadosCadastroAutor(
         @CPF(message = "O CPF é inválido")
         @NotBlank(message = "O CPF não pode ser nulo")
         @Column(unique = true)
-        String cpf
+        String cpf,
+
+        /*
+        1 - Cada autor poderá ter 0 ou mais livros(Opcional --> 0..*)
+        2 - Cada livro poderá ter 1 ou mais autores
+         */
+        List<Livro> livros
 ) {
 }
 

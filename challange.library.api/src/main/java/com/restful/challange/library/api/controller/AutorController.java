@@ -1,6 +1,7 @@
 package com.restful.challange.library.api.controller;
 
 import com.restful.challange.library.api.dto.autor.DadosCadastroAutor;
+import com.restful.challange.library.api.dto.autor.DadosDetalhamentoAutor;
 import com.restful.challange.library.api.dto.autor.DadosListagemAutor;
 import com.restful.challange.library.api.entity.Autor;
 import com.restful.challange.library.api.service.AutorService;
@@ -28,13 +29,13 @@ public class AutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosListagemAutor> cadastrar(
+    public ResponseEntity<DadosDetalhamentoAutor> cadastrar(
             @RequestBody @Valid DadosCadastroAutor dadosCadastroAutor,
             UriComponentsBuilder uriComponentsBuilder
     ) {
         Autor autor = autorService.save(dadosCadastroAutor);
         URI uri = uriComponentsBuilder.path("/api/v1/autor/{id}").buildAndExpand(autor.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DadosListagemAutor(autor));
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoAutor(autor));
     }
 
     @GetMapping

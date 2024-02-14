@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -32,7 +33,7 @@ public class Locatario {
     private String CPF;
     private String email;
     private String telefone;
-    private String nascimento;
+    private LocalDate nascimento;
 
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
