@@ -49,6 +49,14 @@ public class LocatarioController {
         return ResponseEntity.ok(new DadosListagemLocatario(locatario));
     }
 
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Page<DadosListagemLocatario>> buscarPorNome(
+            @PathVariable String nome,
+            @PageableDefault(sort = {"nome"}) Pageable paginacao) {
+        Page<DadosListagemLocatario> locatarios = locatarioService.buscarPorNome(nome, paginacao);
+        return ResponseEntity.ok(locatarios);
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {

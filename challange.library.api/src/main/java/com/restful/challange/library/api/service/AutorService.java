@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface AutorService {
 
     @Transactional
@@ -17,6 +19,8 @@ public interface AutorService {
     void delete(Long id);
 
     Autor buscarPorId(Long id);
+
+    Page<DadosListagemAutor> buscarPorNome(String nome, Pageable paginacao);
 
     Page<DadosListagemAutor> listar(Pageable pageable);
 }

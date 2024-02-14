@@ -18,5 +18,9 @@
 
         Livro buscarPorId(Long id);
 
+
+
         Page<DadosListagemLivro> listar(Pageable pageable);
+
+        Page<DadosListagemLivro> buscarPorNome(String nome, Pageable paginacao);
     }

@@ -19,4 +19,6 @@ public interface LocatarioService {
     Locatario buscarPorId(Long id);
 
     Page<DadosListagemLocatario> listar(Pageable pageable);
+
+    Page<DadosListagemLocatario> buscarPorNome(String nome, Pageable paginacao);
 }

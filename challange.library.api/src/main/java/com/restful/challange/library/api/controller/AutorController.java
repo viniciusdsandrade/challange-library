@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/autor")
@@ -49,6 +50,15 @@ public class AutorController {
         Autor autor = autorService.buscarPorId(id);
         return ResponseEntity.ok(new DadosListagemAutor(autor));
     }
+
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Page<DadosListagemAutor>> buscarPorNome(
+            @PathVariable String nome,
+            @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        Page<DadosListagemAutor> autores = autorService.buscarPorNome(nome, paginacao);
+        return ResponseEntity.ok(autores);
+    }
+
 
     @DeleteMapping("/{id}")
     @Transactional

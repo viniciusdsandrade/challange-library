@@ -47,6 +47,15 @@ public class LivroController {
         return ResponseEntity.ok(new DadosListagemLivro(livro));
     }
 
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Page<DadosListagemLivro>> buscarPorNome(
+            @PathVariable String nome,
+            @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        Page<DadosListagemLivro> livros = livroService.buscarPorNome(nome, paginacao);
+        return ResponseEntity.ok(livros);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         livroService.delete(id);

@@ -56,6 +56,11 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
+    public Page<DadosListagemAutor> buscarPorNome(String nome, Pageable paginacao) {
+        return autorRepository.findByNomeContaining(nome, paginacao).map(DadosListagemAutor::new);
+    }
+
+    @Override
     @Transactional
     public void delete(Long id) {
         Autor autor = autorRepository.findById(id).orElseThrow(() -> new ValidacaoException("Autor não encontrado"));

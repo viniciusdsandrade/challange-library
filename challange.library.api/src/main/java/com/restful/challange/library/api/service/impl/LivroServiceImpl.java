@@ -61,6 +61,12 @@ public class LivroServiceImpl implements LivroService {
     }
 
     @Override
+    public Page<DadosListagemLivro> buscarPorNome(String nome, Pageable paginacao) {
+        return livroRepository.findByNomeContaining(nome, paginacao)
+                .map(DadosListagemLivro::new);
+    }
+
+    @Override
     @Transactional
     public void delete(Long id) {
         Livro livro = livroRepository.findById(id).orElseThrow(() -> new ValidacaoException("Livro não encontrado"));

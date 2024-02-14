@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class LocatarioServiceImpl implements LocatarioService {
@@ -37,6 +38,11 @@ public class LocatarioServiceImpl implements LocatarioService {
     }
 
     @Override
+    public Page<DadosListagemLocatario> buscarPorNome(String nome, Pageable paginacao) {
+        return locatarioRepository.findByNomeContaining(nome, paginacao).map(DadosListagemLocatario::new);
+    }
+
+    @Override
     public Locatario buscarPorId(Long id) {
         return locatarioRepository.findById(id).orElseThrow(() -> new ValidacaoException("Locatario não encontrado"));
     }
@@ -51,7 +57,7 @@ public class LocatarioServiceImpl implements LocatarioService {
     private void validarDadosCadastroLocatario(DadosCadastroLocatario dadosCadastroLocatario) {
 
         String cpf = dadosCadastroLocatario.cpf().replaceAll("[.\\-]", "");
-        LocalDate dataNascimento = LocalDate.parse(dadosCadastroLocatario.nascimento());
+        LocalDate dataNascimento = LocalDate.parse(dadosCadastroLocatario.nascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         validarEmailUnico(dadosCadastroLocatario.email());
         validarCpfUnico(cpf);
