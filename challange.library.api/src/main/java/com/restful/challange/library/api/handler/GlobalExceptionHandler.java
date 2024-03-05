@@ -1,5 +1,9 @@
-package com.restful.challange.library.api.exception;
+package com.restful.challange.library.api.handler;
 
+import com.restful.challange.library.api.exception.CepNotFoundException;
+import com.restful.challange.library.api.exception.DuplicateEntryException;
+import com.restful.challange.library.api.exception.ValidacaoException;
+import com.restful.challange.library.api.handler.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,6 +20,19 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(CepNotFoundException.class)
+    public ResponseEntity<List<ErrorDetails>> handleCepNotFoundException(CepNotFoundException exception,
+                                                                       WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "CEP_NOT_FOUND"
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(errorDetails));
+    }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, WebRequest request) {

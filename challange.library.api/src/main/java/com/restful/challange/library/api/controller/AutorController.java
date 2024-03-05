@@ -54,11 +54,10 @@ public class AutorController {
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Page<DadosListagemAutor>> buscarPorNome(
             @PathVariable String nome,
-            @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+            @PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
         Page<DadosListagemAutor> autores = autorService.buscarPorNome(nome, paginacao);
         return ResponseEntity.ok(autores);
     }
-
 
     @DeleteMapping("/{id}")
     @Transactional

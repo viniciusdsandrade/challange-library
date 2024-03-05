@@ -6,16 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity(name = "LivroAutor")
-@Table(
-        name = "tb_livro_autor",
-        schema = "db_library_api"
-)
+@Table(name = "tb_livro_autor",
+        schema = "db_library_api")
 public class LivroAutor {
 
     @EmbeddedId

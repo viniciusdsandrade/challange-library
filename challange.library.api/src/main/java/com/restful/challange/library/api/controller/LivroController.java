@@ -50,7 +50,7 @@ public class LivroController {
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Page<DadosListagemLivro>> buscarPorNome(
             @PathVariable String nome,
-            @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+            @PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
         Page<DadosListagemLivro> livros = livroService.buscarPorNome(nome, paginacao);
         return ResponseEntity.ok(livros);
     }

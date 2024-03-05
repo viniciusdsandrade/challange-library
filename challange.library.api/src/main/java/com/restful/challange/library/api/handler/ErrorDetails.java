@@ -1,4 +1,4 @@
-package com.restful.challange.library.api.exception;
+package com.restful.challange.library.api.handler;
 
 import org.springframework.validation.FieldError;
 

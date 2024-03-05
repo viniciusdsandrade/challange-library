@@ -15,4 +15,5 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
 
     @Query("SELECT a FROM Autor a WHERE a.nome LIKE %:nome%")
     Page<Autor> findByNomeContaining(String nome, Pageable paginacao);
+
 }

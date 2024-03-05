@@ -8,10 +8,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-@Table(
-        name = "tb_livro_autor",
-        schema = "db_library_api"
-)
+@Table(name = "tb_livro_autor",
+        schema = "db_library_api")
 public class LivroAutorPK implements Serializable {
 
     @Column(name = "livro_id")
